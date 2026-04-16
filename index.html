@@ -1,0 +1,384 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--ink:#0f0f1a;--ink2:#3a3a5c;--ink3:#7a7a9a;
+--cyan:#00d4ff;--violet:#7c3aed;--amber:#f59e0b;--rose:#f43f5e;--mint:#10b981;
+--grad1:linear-gradient(135deg,#0f0f2e 0%,#1a0a3e 50%,#0a1a3e 100%);
+--card:#ffffff12;--cardborder:#ffffff18;
+}
+body{font-family:'Space Grotesk',sans-serif;background:var(--grad1);color:#fff;max-width:430px;margin:0 auto;overflow-x:hidden}
+
+.hero{padding:0;position:relative;overflow:hidden;min-height:420px}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 60% 30%,#7c3aed33 0%,transparent 60%),radial-gradient(ellipse at 20% 80%,#00d4ff22 0%,transparent 50%)}
+.grid-lines{position:absolute;inset:0;opacity:.06;background-image:linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px);background-size:40px 40px}
+.hero-content{position:relative;z-index:2;padding:32px 20px 20px}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:#7c3aed22;border:1px solid #7c3aed55;border-radius:20px;padding:5px 14px;font-size:11px;font-family:'Space Mono',monospace;color:#a78bfa;margin-bottom:16px;letter-spacing:.5px}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#10b981;animation:blink 1.4s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.hero-title{font-size:32px;font-weight:700;line-height:1.1;margin-bottom:8px}
+.hero-title span{background:linear-gradient(90deg,#00d4ff,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:14px;color:#a0a0c0;line-height:1.6;max-width:260px}
+
+.horse-wrap{position:absolute;right:-10px;bottom:0;width:200px;height:240px}
+.horse-wrap svg{filter:drop-shadow(0 0 20px #7c3aed66)}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.horse-wrap{animation:float 3s ease-in-out infinite}
+.chat-bubble{position:absolute;top:20px;right:210px;background:#fff;color:#0f0f1a;border-radius:16px 16px 4px 16px;padding:10px 14px;font-size:12px;font-weight:500;min-width:140px;line-height:1.4;opacity:0;transition:opacity .4s;pointer-events:none;z-index:10;max-width:180px}
+.chat-bubble::after{content:'';position:absolute;bottom:0;right:-8px;width:0;height:0;border:8px solid transparent;border-top-color:#fff;border-right:none}
+.chat-bubble.show{opacity:1}
+
+.section{padding:24px 20px}
+.section-tag{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--cyan);margin-bottom:8px;text-transform:uppercase}
+.section-title{font-size:22px;font-weight:700;margin-bottom:6px;line-height:1.2}
+.section-sub{font-size:13px;color:#a0a0c0;line-height:1.6;margin-bottom:20px}
+
+.stat-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}
+.stat-card{border-radius:16px;padding:18px 16px;border:1px solid var(--cardborder);background:var(--card);backdrop-filter:blur(10px);position:relative;overflow:hidden}
+.stat-card::before{content:'';position:absolute;inset:0;background:var(--accent,#7c3aed11);border-radius:inherit}
+.stat-num{font-size:28px;font-weight:700;line-height:1}
+.stat-label{font-size:11px;color:#8080a0;margin-top:4px}
+.stat-unit{font-size:13px;font-weight:400;color:#a0a0c0}
+
+.vs-strip{background:#ffffff08;border:1px solid #ffffff14;border-radius:20px;padding:20px;margin:0 0 20px}
+.vs-head{display:flex;justify-content:space-between;margin-bottom:16px;font-size:12px;font-weight:700;letter-spacing:.5px}
+.vs-bad{color:#f43f5e}.vs-good{color:#10b981}
+.vs-item{display:flex;align-items:flex-start;gap:10px;margin:10px 0;font-size:13px;color:#c0c0e0;line-height:1.5}
+.vs-dot-bad{width:8px;height:8px;border-radius:50%;background:#f43f5e;flex-shrink:0;margin-top:4px}
+.vs-dot-good{width:8px;height:8px;border-radius:50%;background:#10b981;flex-shrink:0;margin-top:4px}
+.vs-divider{width:1px;background:#ffffff14;margin:0 4px}
+
+.score-section{background:#ffffff06;border:1px solid #ffffff14;border-radius:24px;padding:24px 20px;margin:0 20px 24px}
+.score-label{font-size:12px;color:#8080a0;margin-bottom:8px;font-family:'Space Mono',monospace;letter-spacing:1px}
+.score-bar-wrap{height:12px;background:#ffffff14;border-radius:6px;overflow:hidden;margin:8px 0 4px;position:relative}
+.score-bar{height:100%;border-radius:6px;transition:width .6s cubic-bezier(.4,0,.2,1);background:linear-gradient(90deg,#10b981,#00d4ff)}
+.score-val{font-size:32px;font-weight:700;margin:12px 0 4px;font-family:'Space Mono',monospace}
+.score-status{font-size:12px;border-radius:8px;padding:4px 12px;display:inline-block;font-weight:700;letter-spacing:.5px}
+.score-controls{margin-top:16px}
+.score-controls label{font-size:12px;color:#8080a0;display:block;margin-bottom:6px}
+input[type=range]{width:100%;accent-color:#7c3aed}
+.alert-banner{background:linear-gradient(90deg,#f59e0b18,#f43f5e18);border:1px solid #f59e0b44;border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px;margin-top:12px;font-size:13px;font-weight:500;color:#fcd34d;transition:opacity .4s}
+.alert-icon{font-size:18px;flex-shrink:0}
+
+.flow-section{padding:0 20px 24px}
+.step-tabs{display:flex;gap:8px;margin-bottom:20px}
+.step-tab{flex:1;padding:10px 4px;border-radius:10px;border:1px solid #ffffff18;background:#ffffff08;font-size:11px;font-weight:700;text-align:center;cursor:pointer;transition:all .2s;color:#8080a0;font-family:'Space Mono',monospace}
+.step-tab.active{background:linear-gradient(135deg,#7c3aed,#a855f7);border-color:transparent;color:#fff}
+.step-panel{background:#ffffff08;border:1px solid #ffffff14;border-radius:20px;padding:20px}
+.step-icon{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:14px}
+.step-title{font-size:18px;font-weight:700;margin-bottom:6px}
+.step-body{font-size:13px;color:#a0a0c0;line-height:1.7}
+.step-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.chip{background:#ffffff12;border:1px solid #ffffff1a;border-radius:8px;padding:4px 10px;font-size:11px;font-family:'Space Mono',monospace;color:#c0c0e0}
+.chip.cyan{background:#00d4ff14;border-color:#00d4ff44;color:#00d4ff}
+.chip.violet{background:#7c3aed14;border-color:#7c3aed44;color:#a78bfa}
+.chip.amber{background:#f59e0b14;border-color:#f59e0b44;color:#fcd34d}
+.chip.mint{background:#10b98114;border-color:#10b98144;color:#6ee7b7}
+
+.chat-section{padding:0 20px 24px}
+.chat-title{font-size:18px;font-weight:700;margin-bottom:6px}
+.chat-sub{font-size:13px;color:#8080a0;margin-bottom:16px}
+.chat-messages{background:#ffffff06;border:1px solid #ffffff10;border-radius:16px;padding:16px;min-height:120px;max-height:260px;overflow-y:auto;display:flex;flex-direction:column;gap:12px}
+.msg-vettak{display:flex;gap:10px;align-items:flex-start}
+.msg-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#00d4ff);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px}
+.msg-bubble{background:#7c3aed22;border:1px solid #7c3aed33;border-radius:12px 12px 12px 4px;padding:10px 13px;font-size:13px;color:#e0e0f4;line-height:1.6;max-width:280px}
+.msg-user{display:flex;justify-content:flex-end}
+.msg-user-bubble{background:#00d4ff18;border:1px solid #00d4ff33;border-radius:12px 12px 4px 12px;padding:8px 13px;font-size:13px;color:#c0f0ff;line-height:1.6;max-width:260px}
+.q-buttons{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.q-btn{background:#ffffff08;border:1px solid #ffffff18;border-radius:12px;padding:11px 14px;font-size:12px;color:#c0c0e0;text-align:left;cursor:pointer;transition:all .18s;font-family:'Space Grotesk',sans-serif;line-height:1.4}
+.q-btn:hover{background:#7c3aed22;border-color:#7c3aed55;color:#e0d8ff}
+.q-btn span{color:#7c3aed;font-weight:700;margin-right:6px;font-family:'Space Mono',monospace}
+.typing{display:flex;gap:4px;padding:6px 0}
+.t-dot{width:7px;height:7px;border-radius:50%;background:#a78bfa;animation:bounce .9s infinite}
+.t-dot:nth-child(2){animation-delay:.15s}
+.t-dot:nth-child(3){animation-delay:.3s}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+
+.footer{background:#ffffff06;border-top:1px solid #ffffff10;padding:20px;text-align:center}
+.footer-logo{font-size:22px;font-weight:700;margin-bottom:4px}
+.footer-logo span{background:linear-gradient(90deg,#00d4ff,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.footer-sub{font-size:11px;color:#5060a0;font-family:'Space Mono',monospace;letter-spacing:1px}
+</style>
+
+<div style="background:var(--grad1);min-height:100vh">
+
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="grid-lines"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="live-dot"></span> LIVE ON ALGORAND MAINNET</div>
+    <div class="hero-title">Meet <span>Vettak</span>,<br>Your AI Risk Co-Pilot</div>
+    <div class="hero-sub">Predicts MSME credit risk 30–60 days before a miss. Verified on-chain. No bank needed.</div>
+    <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap">
+      <div style="background:linear-gradient(135deg,#7c3aed,#a855f7);border-radius:12px;padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer" onclick="document.getElementById('chat-section').scrollIntoView({behavior:'smooth'})">Ask Vettak ↓</div>
+      <div style="background:#ffffff12;border:1px solid #ffffff22;border-radius:12px;padding:10px 16px;font-size:13px;color:#c0c0e0;cursor:pointer">See it live →</div>
+    </div>
+  </div>
+  <div class="horse-wrap" id="horse-wrap">
+    <div class="chat-bubble" id="hero-bubble">Namaste! I run on AI + Blockchain. Ask me anything!</div>
+    <svg viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg" width="200" height="240">
+      <defs>
+        <linearGradient id="hg1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#a78bfa"/>
+          <stop offset="100%" stop-color="#00d4ff"/>
+        </linearGradient>
+        <linearGradient id="hg2" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#7c3aed"/>
+          <stop offset="100%" stop-color="#1e40af"/>
+        </linearGradient>
+        <linearGradient id="hg3" x1="0%" y1="100%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#00d4ff"/>
+          <stop offset="100%" stop-color="#a78bfa"/>
+        </linearGradient>
+      </defs>
+      <!-- Body -->
+      <ellipse cx="105" cy="145" rx="52" ry="38" fill="url(#hg2)"/>
+      <!-- Neck -->
+      <path d="M100 120 Q90 100 95 80 Q100 60 108 58 Q120 56 122 70 Q124 88 115 105 Q108 118 105 120Z" fill="url(#hg1)"/>
+      <!-- Head -->
+      <ellipse cx="108" cy="52" rx="22" ry="18" fill="url(#hg1)"/>
+      <!-- Snout -->
+      <ellipse cx="120" cy="62" rx="12" ry="9" fill="#c4b5fd"/>
+      <!-- Eye -->
+      <circle cx="102" cy="46" r="5" fill="#0f0f2e"/>
+      <circle cx="103" cy="45" r="2" fill="#00d4ff"/>
+      <circle cx="104" cy="44" r="1" fill="#fff"/>
+      <!-- Ear -->
+      <polygon points="90,36 84,18 97,28" fill="url(#hg1)"/>
+      <polygon points="91,35 86,22 96,29" fill="#ddd6fe"/>
+      <!-- Mane -->
+      <path d="M96 60 Q80 70 75 90 Q72 108 78 118" stroke="#e9d5ff" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M92 62 Q76 74 72 95 Q69 112 76 122" stroke="#c4b5fd" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <!-- Nostril -->
+      <ellipse cx="123" cy="65" rx="3" ry="2" fill="#7c3aed" opacity=".6"/>
+      <!-- Chest circuit lines (tech detail) -->
+      <line x1="82" y1="140" x2="100" y2="132" stroke="#00d4ff" stroke-width=".8" opacity=".6"/>
+      <line x1="100" y1="132" x2="118" y2="136" stroke="#00d4ff" stroke-width=".8" opacity=".6"/>
+      <line x1="118" y1="136" x2="130" y2="128" stroke="#a78bfa" stroke-width=".8" opacity=".6"/>
+      <circle cx="100" cy="132" r="2.5" fill="#00d4ff" opacity=".9"/>
+      <circle cx="118" cy="136" r="2" fill="#a78bfa" opacity=".9"/>
+      <!-- Front legs -->
+      <rect x="84" y="178" width="14" height="50" rx="6" fill="url(#hg2)"/>
+      <rect x="110" y="178" width="14" height="44" rx="6" fill="url(#hg2)"/>
+      <!-- Hoof accent -->
+      <rect x="84" y="222" width="14" height="8" rx="3" fill="#00d4ff" opacity=".7"/>
+      <rect x="110" y="216" width="14" height="8" rx="3" fill="#00d4ff" opacity=".7"/>
+      <!-- Back haunches -->
+      <ellipse cx="145" cy="162" rx="28" ry="22" fill="#1e1b4b"/>
+      <!-- Back legs -->
+      <rect x="132" y="180" width="13" height="46" rx="6" fill="url(#hg2)"/>
+      <rect x="152" y="174" width="13" height="40" rx="6" fill="url(#hg2)"/>
+      <rect x="132" y="220" width="13" height="8" rx="3" fill="#00d4ff" opacity=".7"/>
+      <rect x="152" y="208" width="13" height="8" rx="3" fill="#00d4ff" opacity=".7"/>
+      <!-- Tail -->
+      <path d="M157 148 Q178 138 185 155 Q188 168 176 175 Q165 180 158 172" stroke="#a78bfa" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M157 150 Q182 140 186 160 Q188 172 175 178" stroke="#c4b5fd" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <!-- Glow orb on body -->
+      <circle cx="105" cy="148" r="10" fill="none" stroke="#00d4ff" stroke-width="1" opacity=".4"/>
+      <circle cx="105" cy="148" r="5" fill="#00d4ff" opacity=".25"/>
+      <circle cx="105" cy="148" r="2.5" fill="#00d4ff" opacity=".8"/>
+      <!-- Hash symbol on flank -->
+      <text x="92" y="158" font-size="10" fill="#a78bfa" opacity=".7" font-family="monospace">#SHA256</text>
+    </svg>
+  </div>
+</div>
+
+<div class="section" style="padding-top:28px">
+  <div class="section-tag">The Problem</div>
+  <div class="section-title">Banks see the crash.<br>We see it coming.</div>
+  <div class="section-sub">₹25 lakh crore credit gap. 6.3 crore MSMEs. Zero early warning systems.</div>
+  <div class="stat-row">
+    <div class="stat-card" style="--accent:#f43f5e18">
+      <div class="stat-num" style="color:#f43f5e">$300B</div>
+      <div class="stat-unit">credit gap</div>
+      <div class="stat-label">unserved MSMEs globally</div>
+    </div>
+    <div class="stat-card" style="--accent:#f59e0b18">
+      <div class="stat-num" style="color:#f59e0b">67%</div>
+      <div class="stat-unit">of defaults</div>
+      <div class="stat-label">were predictable 45 days prior</div>
+    </div>
+    <div class="stat-card" style="--accent:#10b98118">
+      <div class="stat-num" style="color:#10b981">30–60</div>
+      <div class="stat-unit">days early</div>
+      <div class="stat-label">Vettak fires amber alerts</div>
+    </div>
+    <div class="stat-card" style="--accent:#00d4ff18">
+      <div class="stat-num" style="color:#00d4ff">3</div>
+      <div class="stat-unit">AI models</div>
+      <div class="stat-label">working in perfect sync</div>
+    </div>
+  </div>
+
+  <div class="vs-strip">
+    <div class="vs-head">
+      <span class="vs-bad">✕ Old Banking</span>
+      <span class="vs-good">✓ Vitt Chetak</span>
+    </div>
+    <div style="display:flex;gap:8px">
+      <div style="flex:1;display:flex;flex-direction:column;gap:8px">
+        <div class="vs-item"><span class="vs-dot-bad"></span>Default already happened</div>
+        <div class="vs-item"><span class="vs-dot-bad"></span>Months of paperwork</div>
+        <div class="vs-item"><span class="vs-dot-bad"></span>PII exposed in audits</div>
+        <div class="vs-item"><span class="vs-dot-bad"></span>Binary: loan or rejection</div>
+      </div>
+      <div class="vs-divider"></div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:8px">
+        <div class="vs-item"><span class="vs-dot-good"></span>Signal 45 days early</div>
+        <div class="vs-item"><span class="vs-dot-good"></span>Real-time risk score</div>
+        <div class="vs-item"><span class="vs-dot-good"></span>Hash on Algorand chain</div>
+        <div class="vs-item"><span class="vs-dot-good"></span>Nuanced trust scoring</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="score-section">
+  <div class="score-label">LIVE TRUST SCORE SIMULATOR</div>
+  <div style="font-size:12px;color:#6080a0;margin-bottom:12px">Drag sliders to simulate an MSME's health</div>
+  <div class="score-val" id="score-display">742</div>
+  <div class="score-bar-wrap"><div class="score-bar" id="score-bar" style="width:74%"></div></div>
+  <div class="score-status" id="score-status" style="background:#10b98120;color:#10b981">HEALTHY — No Amber Alert</div>
+  <div class="alert-banner" id="alert-banner" style="opacity:0">
+    <span class="alert-icon">⚠</span>
+    <span>Amber Alert — Pre-delinquency risk detected. Restructure now.</span>
+  </div>
+  <div class="score-controls">
+    <label>Sales Velocity <span id="sv-val" style="color:#fff;font-weight:700">65%</span></label>
+    <input type="range" id="sv" min="0" max="100" value="65" step="1" oninput="updateScore()">
+    <label style="margin-top:10px">Payment Consistency <span id="pc-val" style="color:#fff;font-weight:700">80%</span></label>
+    <input type="range" id="pc" min="0" max="100" value="80" step="1" oninput="updateScore()">
+    <label style="margin-top:10px">Cash Flow Stability <span id="cf-val" style="color:#fff;font-weight:700">78%</span></label>
+    <input type="range" id="cf" min="0" max="100" value="78" step="1" oninput="updateScore()">
+  </div>
+</div>
+
+<div class="flow-section">
+  <div class="section-tag" style="padding:0 0 8px">How It Works</div>
+  <div class="section-title" style="padding:0 0 16px;font-size:20px">Three steps. One verdict.</div>
+  <div class="step-tabs">
+    <div class="step-tab active" id="tab-0" onclick="showStep(0)">M1<br>Credit</div>
+    <div class="step-tab" id="tab-1" onclick="showStep(1)">M2<br>Fraud</div>
+    <div class="step-tab" id="tab-2" onclick="showStep(2)">M3<br>Forecast</div>
+    <div class="step-tab" id="tab-3" onclick="showStep(3)">Chain<br>Lock</div>
+  </div>
+  <div class="step-panel" id="step-panel">
+    <div class="step-icon" style="background:#7c3aed22;border:1px solid #7c3aed44;font-size:22px">🧠</div>
+    <div class="step-title">Credit Health Engine</div>
+    <div class="step-body">XGBoost analyses financial ratios — liquidity, leverage, debt coverage — finding hidden patterns that spreadsheets miss. It scores the MSME's financial DNA.</div>
+    <div class="step-chips">
+      <div class="chip violet">XGBoost</div>
+      <div class="chip">Liquidity ratio</div>
+      <div class="chip">DSCR</div>
+      <div class="chip">Leverage</div>
+    </div>
+  </div>
+</div>
+
+<div id="chat-section" class="chat-section">
+  <div class="section-tag">Ask Vettak</div>
+  <div class="chat-title">One-on-one with your AI co-pilot</div>
+  <div class="chat-sub">Tap a question below. Vettak answers like the fintech founder he is.</div>
+  <div class="chat-messages" id="chat-msgs">
+    <div class="msg-vettak">
+      <div class="msg-avatar">🐎</div>
+      <div class="msg-bubble">Namaste, Judge. I'm Vettak — AI horse, blockchain native, fintech visionary. What would you like to know about Vitt Chetak?</div>
+    </div>
+  </div>
+  <div class="q-buttons">
+    <div class="q-btn" onclick="askVettak(0)"><span>Q1</span>How does your LSTM handle seasonal sales cycles?</div>
+    <div class="q-btn" onclick="askVettak(1)"><span>Q2</span>How does the blockchain prevent score manipulation?</div>
+    <div class="q-btn" onclick="askVettak(2)"><span>Q3</span>What triggers an Amber Alert in real time?</div>
+    <div class="q-btn" onclick="askVettak(3)"><span>Q4</span>Why Algorand and not Ethereum?</div>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="footer-logo"><span>Vitt Chetak</span></div>
+  <div style="font-size:12px;color:#6060a0;margin:4px 0 8px">Powered by Vettak Protocol v2.1</div>
+  <div class="footer-sub">ALGORAND MAINNET · SHA-256 ANCHORED · BUILT FOR BHARAT</div>
+</div>
+
+</div>
+
+<script>
+setTimeout(()=>{
+  const b=document.getElementById('hero-bubble');
+  b.classList.add('show');
+  setTimeout(()=>b.classList.remove('show'),4000);
+},800);
+
+function updateScore(){
+  const sv=+document.getElementById('sv').value;
+  const pc=+document.getElementById('pc').value;
+  const cf=+document.getElementById('cf').value;
+  document.getElementById('sv-val').textContent=sv+'%';
+  document.getElementById('pc-val').textContent=pc+'%';
+  document.getElementById('cf-val').textContent=cf+'%';
+  const raw=(sv*0.35+pc*0.35+cf*0.3);
+  const score=Math.round(300+raw*5);
+  document.getElementById('score-display').textContent=score;
+  const pct=Math.round((score-300)/500*100);
+  document.getElementById('score-bar').style.width=Math.min(100,pct)+'%';
+  const alert=document.getElementById('alert-banner');
+  const status=document.getElementById('score-status');
+  if(score<550){
+    status.style.background='#f43f5e20';status.style.color='#f43f5e';
+    status.textContent='HIGH RISK — Intervention Required';
+    alert.style.opacity='1';
+  }else if(score<650){
+    status.style.background='#f59e0b20';status.style.color='#f59e0b';
+    status.textContent='AMBER ALERT — Pre-delinquency Signal';
+    alert.style.opacity='1';
+  }else{
+    status.style.background='#10b98120';status.style.color='#10b981';
+    status.textContent='HEALTHY — No Amber Alert';
+    alert.style.opacity='0';
+  }
+  const bar=document.getElementById('score-bar');
+  if(score<550) bar.style.background='linear-gradient(90deg,#f43f5e,#f59e0b)';
+  else if(score<650) bar.style.background='linear-gradient(90deg,#f59e0b,#fcd34d)';
+  else bar.style.background='linear-gradient(90deg,#10b981,#00d4ff)';
+}
+
+const steps=[
+  {icon:'🧠',title:'Credit Health Engine',body:'XGBoost analyses financial ratios — liquidity, leverage, debt coverage — finding hidden patterns that spreadsheets miss. It scores the MSME\'s financial DNA.',chips:[{c:'violet',t:'XGBoost'},{c:'',t:'Liquidity ratio'},{c:'',t:'DSCR'},{c:'',t:'Leverage'}]},
+  {icon:'🛡️',title:'Fraud Shield',body:'Isolation Forest scans every transaction for behavioural anomalies — no labelled fraud data needed. It spots what looks wrong before it becomes wrong.',chips:[{c:'mint',t:'Isolation Forest'},{c:'',t:'Anomaly detection'},{c:'',t:'Transaction patterns'},{c:'',t:'Real-time scan'}]},
+  {icon:'📈',title:'Growth Forecast',body:'LSTM neural networks trained on 24-month cash-flow sequences predict the future. They see seasonal dips, festival spikes, and slow-burn stress — months ahead.',chips:[{c:'cyan',t:'LSTM'},{c:'',t:'Time-series'},{c:'',t:'Seasonality'},{c:'',t:'Cash-flow AI'}]},
+  {icon:'⛓',title:'Blockchain Anchor',body:'A SHA-256 hash of your Trust Score is permanently anchored to Algorand Mainnet via PyTeal smart contracts. Tamper-proof. Verifiable. Zero PII exposed.',chips:[{c:'amber',t:'Algorand'},{c:'',t:'PyTeal'},{c:'',t:'SHA-256'},{c:'',t:'Decentralised trust'}]},
+];
+function showStep(i){
+  [0,1,2,3].forEach(j=>{document.getElementById('tab-'+j).classList.toggle('active',j===i)});
+  const s=steps[i];
+  const chipHtml=s.chips.map(c=>`<div class="chip ${c.c}">${c.t}</div>`).join('');
+  document.getElementById('step-panel').innerHTML=`<div class="step-icon" style="background:#7c3aed22;border:1px solid #7c3aed44;font-size:22px">${s.icon}</div><div class="step-title">${s.title}</div><div class="step-body">${s.body}</div><div class="step-chips">${chipHtml}</div>`;
+}
+
+const qas=[
+  ["How does your LSTM handle seasonal sales cycles?","Great question. Our LSTM uses a 90-day sliding window with positional encoding for festival periods — Diwali, year-end, harvest cycles. We feed it 24 months of labelled data per MSME so it learns *their* rhythm, not a generic one. The model distinguishes a Diwali spike from a recovery trend."],
+  ["How does the blockchain prevent score manipulation?","Simple: we SHA-256 hash the score the moment it's generated, and anchor it to Algorand Mainnet. Any attempt to alter the score would change the hash — and the chain catches it instantly. The original score lives forever on-chain. No one — not even us — can rewrite it."],
+  ["What triggers an Amber Alert in real time?","Our FastAPI layer watches 3 signals simultaneously — sales velocity drop, payment pattern shift, and LSTM-predicted cash-flow stress. When two of three cross the pre-delinquency threshold, a WebSocket event fires to the React dashboard within 500ms. The MSME gets notified before they even feel the pressure."],
+  ["Why Algorand and not Ethereum?","Ethereum gas fees are unpredictable — ₹500 to anchor one score is not viable for MSME-scale deployment. Algorand gives us finality in under 4 seconds, near-zero transaction cost (~₹0.001), and a pure-Python smart contract language in PyTeal. For Bharat-scale fintech, Algorand is the obvious choice."],
+];
+let typing=false;
+function askVettak(i){
+  if(typing) return;
+  typing=true;
+  const msgs=document.getElementById('chat-msgs');
+  const uDiv=document.createElement('div');
+  uDiv.className='msg-user';
+  uDiv.innerHTML=`<div class="msg-user-bubble">${qas[i][0]}</div>`;
+  msgs.appendChild(uDiv);
+  const tDiv=document.createElement('div');
+  tDiv.className='msg-vettak';
+  tDiv.innerHTML=`<div class="msg-avatar">🐎</div><div class="msg-bubble"><div class="typing"><span class="t-dot"></span><span class="t-dot"></span><span class="t-dot"></span></div></div>`;
+  msgs.appendChild(tDiv);
+  msgs.scrollTop=msgs.scrollHeight;
+  setTimeout(()=>{
+    tDiv.querySelector('.msg-bubble').textContent=qas[i][1];
+    msgs.scrollTop=msgs.scrollHeight;
+    typing=false;
+  },1400);
+}
+</script>
